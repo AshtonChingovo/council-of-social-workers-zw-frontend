@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    background-color: #E5E9EC; 
+}
+
+.nav-tabs .nav-link {
+    color: gray; /* Inactive tab color */
+  }
+  
+  .nav-tabs .nav-link.active {
+    color: black !important; /* Active tab color */
+}
+
+@font-face {
+    font-family: inter;
+    src: url(assets/fonts/inter_normal.ttf) format(truetype);
+}
+
+.custom-border {
+    border-color: #000 !important; /* Light gray for subtle look */
+    padding-left: 20px; /* Add some spacing so text isn’t too close to border */
+}
