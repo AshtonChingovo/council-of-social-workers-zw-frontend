@@ -1,30 +1,40 @@
 <table class="table table-borderless mt-3">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th class="fw-normal">Name</th>
-        <th class="fw-normal">Reg #</th>
-        <th class="fw-normal">Practising #</th>
-        <th class="fw-normal">Valid Until</th>
-        <th class="fw-normal">Photo Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td class="text-secondary fs-6">Jul 14, 2023</td>
-        <td class="text-secondary">Jul 15, 2023</td>
-        <td class="text-secondary">Valid Until</td>
-        <td class="text-secondary">Credit</td>
-        <td class="text-secondary">+ $12.50</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td class="text-secondary">Jul 14, 2023</td>
-        <td class="text-secondary">Jul 15, 2023</td>
-        <td class="text-secondary">Valid Until</td>
-        <td class="text-secondary">Credit</td>
-        <td class="text-secondary">+ $12.50</td>
-      </tr>
-    </tbody>
-  </table>
+  <thead>
+    <tr>
+      <th class="fw-normal">Name</th>
+      <th class="fw-normal">Email</th>
+      <th class="fw-normal">Reg #</th>
+      <th class="fw-normal">Practising #</th>
+      <th class="fw-normal">Registration Year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of trackingSheetClients">
+      <td class="text-secondary fs-6">{{ item.name }} {{ item.surname }}</td>
+      <td class="text-secondary">{{ item.email }}</td>
+      <td class="text-secondary">{{ item.registrationNumber }}</td>
+      <td class="text-secondary">{{ item.practiceNumber }}</td>
+      <td class="text-secondary">{{ item.registrationYear }}</td>
+    </tr>
+  </tbody>
+</table>
+<nav aria-label="Page navigation" class="mt-5 me-5 p-4" *ngIf="!isFetchingData">
+  <ul class="pagination justify-content-end">
+    <li class="page-item first" [ngClass]="{disabled: !isStartEnabled}" (click)="onGetStartPage()">
+      <a class="page-link"><i class="bx bx-chevrons-left bx-sm"></i></a>
+    </li>
+    <li class="page-item prev" [ngClass]="{disabled: !isPrevEnabled}" (click)="onGetPreviousPage()">
+      <a class="page-link"><i class="bx bx-chevron-left bx-sm"></i></a>
+    </li>
+    <!-- API indexing starts at zero -->
+    <li class="page-item" [ngClass]="{active: page == currentPage }" *ngFor="let page of pages" (click)="onGetPage(page - 1)">
+      <a class="page-link"> {{ page }} </a>
+    </li>
+    <li class="page-item" [ngClass]="{disabled: !isNextEnabled}" (click)="onGetNextPage()">
+      <a class="page-link"><i class="bx bx-chevron-right bx-sm"></i></a>
+    </li>
+    <li class="page-item last" [ngClass]="{disabled: !isEndEnabled}" (click)="onGetEndPage()">
+      <a class="page-link"><i class="bx bx-chevrons-right bx-sm"></i></a>
+    </li>
+  </ul>
+</nav>

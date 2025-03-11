@@ -1,31 +1,121 @@
 <!-- CardPro Sheet Tab -->
-<table class="table table-borderless mt-3">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th class="fw-normal">Name</th>
-      <th class="fw-normal">Reg #</th>
-      <th class="fw-normal">Practising #</th>
-      <th class="fw-normal">Valid Until</th>
-      <th class="fw-normal">Photo Name</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td class="text-secondary fs-6">Jul 14, 2023</td>
-      <td class="text-secondary">Jul 15, 2023</td>
-      <td class="text-secondary">Valid Until</td>
-      <td class="text-secondary">Credit</td>
-      <td class="text-secondary">+ $12.50</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td class="text-secondary">Jul 14, 2023</td>
-      <td class="text-secondary">Jul 15, 2023</td>
-      <td class="text-secondary">Valid Until</td>
-      <td class="text-secondary">Credit</td>
-      <td class="text-secondary">+ $12.50</td>
-    </tr>
-  </tbody>
-</table>
+<div class="container">
+  <div class="row">
+    <!-- [src]="client.attachmentPath" -->
+    <div class="col-md-3 mb-4" *ngFor="let client of cardProSheetClients">
+      <div class="profile-card d-flex flex-column justify-content-between">
+        <div class="profile-image-container">
+          <img
+            src="assets/images/avatar.jpg"
+            class="profile-image"
+            alt="Leslie Alexander"
+          />
+        </div>
+        <div>
+          <span class="client-name d-block">{{ client.name }} {{ client.surname }}</span>
+          <span class="card-label">Reg #: </span><span class="founder-name">{{ client.registrationNumber }}</span><br>
+          <span class="card-label">Prac #: </span><span class="founder-name">{{ client.practiceNumber }}</span>
+        </div>
+        <button type="button" class="btn btn-secondary btn-sm rounded-circle align-self-end mt-2"  data-toggle="modal" data-target="#moreDetailsModal">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Add more cards as needed -->
+  </div>
+</div>
+
+
+<div class="modal fade" id="moreDetailsModal" tabindex="-1" role="dialog" aria-labelledby="moreDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="moreDetailsModalLabel">Client Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <span class="client-name d-block">John Doe</span>
+          <span class="card-label">Reg #: </span><span class="founder-name">909234</span><br>
+          <span class="card-label">Prac #: </span><span class="founder-name">34523453</span>
+          <span class="card-label">Valid Until #: </span><span class="founder-name">31/12/2025</span>
+          <span class="card-label">Photo Name: </span><span class="founder-name">lakjsldfj asdljfasd</span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div
+  class="container d-flex justify-content-center align-items-center min-vh-100"
+>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="profile-card">
+        <div class="profile-image-container">
+          <img
+            src="https://via.placeholder.com/400x500"
+            class="profile-image"
+            alt="Leslie Alexander"
+          />
+        </div>
+        <span class="founder-name">Leslie Alexander</span>
+        <p class="founder-title">Reg #</p>
+        <p class="founder-title">Prac #</p>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="profile-card">
+        <div class="profile-image-container">
+          <img
+            src="https://via.placeholder.com/400x500"
+            class="profile-image"
+            alt="Leslie Alexander"
+          />
+        </div>
+        <span class="founder-name">Leslie Alexander</span>
+        <p class="founder-title">Reg #</p>
+        <p class="founder-title">Prac #</p>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="profile-card">
+        <div class="profile-image-container">
+          <img
+            src="https://via.placeholder.com/400x500"
+            class="profile-image"
+            alt="Leslie Alexander"
+          />
+        </div>
+        <span class="founder-name">Leslie Alexander</span>
+        <p class="founder-title">Reg #</p>
+        <p class="founder-title">Prac #</p>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="profile-card">
+        <div class="profile-image-container">
+          <img
+            src="assets/images/Mufaro Nyareza.jpeg"
+            class="profile-image"
+            alt="Leslie Alexander"
+          />
+        </div>
+        <div>
+          <span class="founder-name d-block">Leslie Alexander</span>
+          <span class="founder-title">Reg #: </span><span class="founder-name">87839423</span><br>
+          <span class="founder-title">Prac # </span><span class="founder-name">87839423</span>
+      </div>
+      </div>
+    </div>
+
+  </div>
+</div> -->

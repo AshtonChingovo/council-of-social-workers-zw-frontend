@@ -1,40 +1,82 @@
 <div class="card p-4">
-    <div class="d-flex justify-content-between">
-      <span><i class="bi bi-list-ul me-3"></i> File Uploads & Downloads</span>
-    </div>
-    <div class="row mt-4 mb-3 d-flex justify-content-between">
-
-      <!-- Upload Track Sheet -->
-      <div class="col-auto me-1">
-        <p class="text-muted mb-1">Tracking Sheet <i class="bi bi-info-circle-fill"></i></p>
+  <div class="d-flex justify-content-between">
+    <span><i class="bi bi-list-ul me-3"></i> File Uploads & Downloads</span>
+  </div>
+  <div class="row mt-4 mb-3 d-flex justify-content-between">
+    <!-- Upload Track Sheet -->
+    <div class="col-auto me-1">
+      <p class="text-muted mb-1">
+        Tracking Sheet <i class="bi bi-info-circle-fill"></i>
+      </p>
+      <div>
         <label class="btn btn-dark mt-2">
-            <i class="bi bi-upload"></i> <span class="ms-2">Upload Tracking Sheet</span>
-            <input type="file" class="d-none" (change)="onFileSelected($event)" accept=".xlsx">
+          <span
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+            *ngIf="isUploading"
+          ></span>
+          <i class="bi bi-upload" *ngIf="!isUploading"></i>
+          <span class="ms-2">Upload Tracking Sheet</span>
+          <input
+            type="file"
+            class="d-none"
+            (change)="onFileSelected($event)"
+            accept=".xlsx"
+          />
         </label>
-        <p><span class="badge rounded-pill bg-secondary mt-3">UPLOADED</span></p>
       </div>
+      <p *ngIf="isTrackingSheetUploaded">
+        <span class="badge rounded-pill bg-info mt-3">UPLOADED</span>
+      </p>
+    </div>
 
-      <!-- Divider -->
-      <div class="col-auto d-flex align-items-stretch">
-        <div class="vr full-height"></div>
-      </div>
+    <!-- Divider -->
+    <div class="col-auto d-flex align-items-stretch">
+      <div class="vr full-height"></div>
+    </div>
 
-      <!-- Generate CardPro Sheet -->
-      <div class="col-auto me-1">
-        <p class="text-muted mb-1">CardPro Sheet <i class="bi bi-info-circle-fill"></i></p>
-        <button type="file" class="btn btn-dark mt-2"><i class="bi bi-table"></i> <span class="ms-2">Generate CardPro Sheet</span></button>
-      </div>
+    <!-- Generate CardPro Sheet -->
+    <div class="col-auto me-1">
+      <p class="text-muted mb-1">
+        CardPro Sheet <i class="bi bi-info-circle-fill"></i>
+      </p>
+      <button class="btn btn-dark mt-2" (click)="onGenerateCardProSheet()">
+        <span
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+            *ngIf="isGeneratingCardProSheet"
+          ></span>
+        <i class="bi bi-table"  *ngIf="!isGeneratingCardProSheet"></i>
+        <span class="ms-2">Generate CardPro Sheet</span>
+      </button>
+      <p *ngIf="isCardProSheetGenerated">
+        <span class="badge rounded-pill bg-info mt-3">GENERATED</span>
+      </p>
+    </div>
 
-      <!-- Divider -->
-      <div class="col-auto d-flex align-items-stretch">
-        <div class="vr full-height"></div>
-      </div>
+    <!-- Divider -->
+    <div class="col-auto d-flex align-items-stretch">
+      <div class="vr full-height"></div>
+    </div>
 
-      <!-- Download CardPro Sheet -->
-      <div class="col-auto me-1">
-        <p class="text-muted mb-1">File Download</p>
-        <button type="button" class="btn btn-dark mt-2"><i class="bi bi-cloud-arrow-down"></i> <span class="ms-2">Download CardPro Sheet</span></button>
-      </div>
-      
+    <!-- Download CardPro Sheet -->
+    <div class="col-auto me-1">
+      <p class="text-muted mb-1">File Download</p>
+      <button type="button" class="btn btn-dark mt-2" (click)="onDownloadCardProSheet()">
+        <span
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+            *ngIf="isDownloadingCardProSheet"
+          ></span>
+        <i class="bi bi-cloud-arrow-down" *ngIf="!isDownloadingCardProSheet"></i>
+        <span class="ms-2">Download CardPro Sheet</span>
+      </button>
+      <p *ngIf="isCardProSheetDownloaded">
+        <span class="badge rounded-pill bg-info mt-3">FILE DOWNLOADED</span>
+      </p>
     </div>
   </div>
+</div>
