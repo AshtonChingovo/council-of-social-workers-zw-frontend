@@ -7,5 +7,6 @@ export interface PaginationAPIResponseModel {
         first?: boolean
         last?: boolean
         source?: string
+        
 }
 
