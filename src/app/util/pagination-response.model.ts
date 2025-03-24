@@ -1,5 +1,3 @@
-import { AnyObject } from "chart.js/dist/types/basic"
-
 export interface PaginationAPIResponseModel {
         data: any[]
         numberOfElements?: number
