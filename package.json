@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod && mv dist/csw-angular _static",
+    "build": "ng build --configuration production && mv dist/csw-angular _static",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
