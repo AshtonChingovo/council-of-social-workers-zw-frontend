@@ -1,6 +1,6 @@
 <!-- CardPro Sheet Tab -->
 <div class="container">
-  <div class="row">
+  <div class="row" *ngIf="isDataAvailable">
     <!-- [src]="client.attachmentPath" -->
     <div class="col-md-3 mb-4" *ngFor="let client of cardProSheetClients">
       <div class="profile-card d-flex flex-column justify-content-between">
@@ -16,106 +16,60 @@
           <span class="card-label">Reg #: </span><span class="founder-name">{{ client.registrationNumber }}</span><br>
           <span class="card-label">Prac #: </span><span class="founder-name">{{ client.practiceNumber }}</span>
         </div>
-        <button type="button" class="btn btn-secondary btn-sm rounded-circle align-self-end mt-2"  data-toggle="modal" data-target="#moreDetailsModal">
+        <button type="button" class="btn btn-secondary btn-sm rounded-circle align-self-end mt-2" (click)="onClientMoreDetailsClient(client)" data-bs-toggle="modal"data-bs-target="#moreDetailsModal">
           <i class="bi bi-chevron-right"></i>
         </button>
       </div>
     </div>
-    
-    <!-- Add more cards as needed -->
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation" class="mt-5 me-5 p-4" *ngIf="!isFetchingData">
+      <ul class="pagination justify-content-end">
+        <li class="page-item first" [ngClass]="{disabled: !isStartEnabled}" (click)="onGetStartPage()">
+          <a class="page-link"><i class="bi bi-chevron-double-left"></i></a>
+        </li>
+        <li class="page-item" [ngClass]="{disabled: !isPrevEnabled}" (click)="onGetPreviousPage()">
+          <a class="page-link"><i class="bi bi-chevron-left"></i></a>
+        </li>
+        <!-- API indexing starts at zero -->
+        <li class="page-item" [ngClass]="{active: page == currentPage }" *ngFor="let page of pages" (click)="onGetPage(page - 1)">
+          <a class="page-link"> {{ page }} </a>
+        </li>
+        <li class="page-item" [ngClass]="{disabled: !isNextEnabled}" (click)="onGetNextPage()">
+          <a class="page-link"><i class="bi bi-chevron-right"></i></a>
+        </li>
+        <li class="page-item last" [ngClass]="{disabled: !isEndEnabled}" (click)="onGetEndPage()">
+          <a class="page-link"><i class="bi bi-chevron-double-right"></i></a>
+        </li>
+      </ul>
+    </nav>
   </div>
+
+  <!-- Empty Data Set -->
+  <div class="no-data-container text-center mt-5" *ngIf="!isDataAvailable">
+    <img src="assets/images/empty.png" class="empty-data-image" alt="No Data Available" />
+    <p class="text-muted">No data available yet</p>
+  </div>
+  
 </div>
 
-
+<!-- Modal -->
 <div class="modal fade" id="moreDetailsModal" tabindex="-1" role="dialog" aria-labelledby="moreDetailsModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="moreDetailsModalLabel">Client Details</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body">
-        <span class="client-name d-block">John Doe</span>
-          <span class="card-label">Reg #: </span><span class="founder-name">909234</span><br>
-          <span class="card-label">Prac #: </span><span class="founder-name">34523453</span>
-          <span class="card-label">Valid Until #: </span><span class="founder-name">31/12/2025</span>
-          <span class="card-label">Photo Name: </span><span class="founder-name">lakjsldfj asdljfasd</span>
+        <h5><span class="client-name d-block mt-2">{{ activeCardProClient.name }} {{ activeCardProClient.surname }}</span></h5>
+        <div class="card-label mt-3">Reg #: <span class="client-details">{{ activeCardProClient.registrationNumber }}</span></div>
+        <div class="card-label mt-3">Prac #: <span class="client-details">{{ activeCardProClient.practiceNumber }}</span></div>
+        <div class="card-label mt-3">Valid Until: <span class="client-details">{{ activeCardProClient.dateOfExpiry }}</span></div>
+        <div class="card-label mt-3">Photo Name: <span class="client-details">{{ activeCardProClient.attachmentFileName }}</span></div>   
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
-
-<!-- <div
-  class="container d-flex justify-content-center align-items-center min-vh-100"
->
-  <div class="row">
-    <div class="col-md-3">
-      <div class="profile-card">
-        <div class="profile-image-container">
-          <img
-            src="https://via.placeholder.com/400x500"
-            class="profile-image"
-            alt="Leslie Alexander"
-          />
-        </div>
-        <span class="founder-name">Leslie Alexander</span>
-        <p class="founder-title">Reg #</p>
-        <p class="founder-title">Prac #</p>
-      </div>
-    </div>
-
-    <div class="col-md-3">
-      <div class="profile-card">
-        <div class="profile-image-container">
-          <img
-            src="https://via.placeholder.com/400x500"
-            class="profile-image"
-            alt="Leslie Alexander"
-          />
-        </div>
-        <span class="founder-name">Leslie Alexander</span>
-        <p class="founder-title">Reg #</p>
-        <p class="founder-title">Prac #</p>
-      </div>
-    </div>
-
-    <div class="col-md-3">
-      <div class="profile-card">
-        <div class="profile-image-container">
-          <img
-            src="https://via.placeholder.com/400x500"
-            class="profile-image"
-            alt="Leslie Alexander"
-          />
-        </div>
-        <span class="founder-name">Leslie Alexander</span>
-        <p class="founder-title">Reg #</p>
-        <p class="founder-title">Prac #</p>
-      </div>
-    </div>
-
-    <div class="col-md-3">
-      <div class="profile-card">
-        <div class="profile-image-container">
-          <img
-            src="assets/images/Mufaro Nyareza.jpeg"
-            class="profile-image"
-            alt="Leslie Alexander"
-          />
-        </div>
-        <div>
-          <span class="founder-name d-block">Leslie Alexander</span>
-          <span class="founder-title">Reg #: </span><span class="founder-name">87839423</span><br>
-          <span class="founder-title">Prac # </span><span class="founder-name">87839423</span>
-      </div>
-      </div>
-    </div>
-
-  </div>
-</div> -->

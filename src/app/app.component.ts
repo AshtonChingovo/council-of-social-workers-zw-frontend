@@ -9,7 +9,7 @@ import { WorkSheetsComponent } from "./work-sheets/work-sheets.component";
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CardproComponent, TrackingSheetComponent, FileUploadsDownloadsComponent, WorkSheetsComponent],
+  imports: [ RouterOutlet, CardproComponent, TrackingSheetComponent, FileUploadsDownloadsComponent, WorkSheetsComponent ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

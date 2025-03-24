@@ -5,5 +5,6 @@ export interface CardPro{
     registrationNumber: string
     practiceNumber: string
     dateOfExpiry: string
+    attachmentFileName: string
     attachmentPath: string
 }

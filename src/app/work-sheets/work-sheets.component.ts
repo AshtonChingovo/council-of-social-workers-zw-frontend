@@ -28,14 +28,12 @@ export class WorkSheetsComponent implements OnInit {
 
       if(this.isTrackingTabActive){
         this.trackingSheetService.getTrackingSheetClients(
-          { pageNumber: 0, pageSize: 20, sortBy: "id" }
+          { pageNumber: 0, pageSize: 20, sortBy: "registrationYear" }
         );
       }
     })
 
     this.filesService.cardProSheetEventSubject.subscribe((response) => {
-
-      console.log(response);
 
       this.isCardProTabActive = response.isSuccessful;
       this.isTrackingTabActive = false;

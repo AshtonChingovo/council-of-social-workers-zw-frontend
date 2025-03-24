@@ -41,7 +41,7 @@
       <p class="text-muted mb-1">
         CardPro Sheet <i class="bi bi-info-circle-fill"></i>
       </p>
-      <button class="btn btn-dark mt-2" (click)="onGenerateCardProSheet()">
+      <button class="btn btn-dark mt-2" (click)="onGenerateCardProSheet()" [disabled]="!isTrackingSheetUploaded">
         <span
             class="spinner-border spinner-border-sm"
             role="status"
@@ -64,7 +64,7 @@
     <!-- Download CardPro Sheet -->
     <div class="col-auto me-1">
       <p class="text-muted mb-1">File Download</p>
-      <button type="button" class="btn btn-dark mt-2" (click)="onDownloadCardProSheet()">
+      <button type="button" class="btn btn-dark mt-2" (click)="onDownloadCardProSheet()" [disabled]="!isCardProSheetGenerated">
         <span
             class="spinner-border spinner-border-sm"
             role="status"

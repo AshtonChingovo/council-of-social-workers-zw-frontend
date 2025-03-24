@@ -1,5 +1,6 @@
 body {
-    background-color: #E5E9EC; 
+    /* background-color: #E5E9EC; #e2e8f0 */
+    background-color: #fff; 
 }
 
 .nav-tabs .nav-link {
@@ -19,3 +20,6 @@ body {
     border-color: #000 !important; /* Light gray for subtle look */
     padding-left: 20px; /* Add some spacing so text isn’t too close to border */
 }
+.card {
+    border: 1px solid #e2e8f0; /* Light grey border */
+  }
