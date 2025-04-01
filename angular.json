@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/council-of-social-work-ang",
+            "outputPath": "dist/csw-angular",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -65,10 +65,10 @@
           },
           "configurations": {
             "production": {
-              "buildTarget": "council-of-social-work-ang:build:production"
+              "buildTarget": "csw-angular:build:production"
             },
             "development": {
-              "buildTarget": "council-of-social-work-ang:build:development"
+              "buildTarget": "csw-angular:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "council-of-social-work-ang:build"
+            "buildTarget": "csw-angular:build"
           }
         },
         "test": {

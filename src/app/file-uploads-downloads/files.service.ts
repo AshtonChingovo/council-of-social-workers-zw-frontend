@@ -14,11 +14,11 @@ export class FilesService {
     constructor(private httpClient: HttpClient){}
 
     getTrackingSheet() {
-        return this.httpClient.get("http://192.168.100.134:8080/api/v1/tracking-sheet", { observe: "response" });
+        return this.httpClient.get(environment.baseUrl + "/tracking-sheet", { observe: "response" });
     }
 
     postTrackingSheet(file: FormData){
-        this.httpClient.post("http://192.168.100.134:8080/api/v1/tracking-sheet/upload", file, { observe: "response" })
+        this.httpClient.post(environment.baseUrl + "/tracking-sheet/upload", file, { observe: "response" })
         .subscribe({
           next: (httpResponse) => {
             var apiResponse = new APIResponse();
@@ -50,7 +50,7 @@ export class FilesService {
     trackingSheetEventEmitterListener() {
         
         return new Observable((observer) => {
-            const eventSource = new EventSource("http://192.168.100.134:8080/api/v1/tracking-sheet/upload");
+            const eventSource = new EventSource(environment.baseUrl + "v1/tracking-sheet/upload");
       
             eventSource.onmessage = (event) => {
               observer.next(event.data);
