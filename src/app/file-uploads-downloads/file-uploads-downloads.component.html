@@ -36,19 +36,52 @@
       <div class="vr full-height"></div>
     </div>
 
+    <!-- Generate Images -->
+    <div class="col-auto me-1">
+      <p class="text-muted mb-1">
+        Images <i class="bi bi-info-circle-fill"></i>
+      </p>
+      <button
+        class="btn btn-dark mt-2"
+        (click)="onExtractImages()"
+        [disabled]="!isTrackingSheetUploaded"
+      >
+        <span
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+          *ngIf="isExtractingImages"
+        ></span>
+        <i class="bi bi-images" *ngIf="!isExtractingImages"></i>
+        <span class="ms-2">Extract Images</span>
+      </button>
+      <p *ngIf="isImagesExtracted">
+        <span class="badge rounded-pill bg-info mt-3">Extracted</span>
+      </p>
+    </div>
+
+    <!-- Divider -->
+    <div class="col-auto d-flex align-items-stretch">
+      <div class="vr full-height"></div>
+    </div>
+
     <!-- Generate CardPro Sheet -->
     <div class="col-auto me-1">
       <p class="text-muted mb-1">
         CardPro Sheet <i class="bi bi-info-circle-fill"></i>
       </p>
-      <button class="btn btn-dark mt-2" (click)="onGenerateCardProSheet()" [disabled]="!isTrackingSheetUploaded">
+      <button
+        class="btn btn-dark mt-2"
+        (click)="onGenerateCardProSheet()"
+        [disabled]="!isImagesExtracted"
+      >
         <span
-            class="spinner-border spinner-border-sm"
-            role="status"
-            aria-hidden="true"
-            *ngIf="isGeneratingCardProSheet"
-          ></span>
-        <i class="bi bi-table"  *ngIf="!isGeneratingCardProSheet"></i>
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+          *ngIf="isGeneratingCardProSheet"
+        ></span>
+        <i class="bi bi-table" *ngIf="!isGeneratingCardProSheet"></i>
         <span class="ms-2">Generate CardPro Sheet</span>
       </button>
       <p *ngIf="isCardProSheetGenerated">
@@ -64,14 +97,22 @@
     <!-- Download CardPro Sheet -->
     <div class="col-auto me-1">
       <p class="text-muted mb-1">File Download</p>
-      <button type="button" class="btn btn-dark mt-2" (click)="onDownloadCardProSheet()" [disabled]="!isCardProSheetGenerated">
+      <button
+        type="button"
+        class="btn btn-dark mt-2"
+        (click)="onDownloadCardProSheet()"
+        [disabled]="!isCardProSheetGenerated"
+      >
         <span
-            class="spinner-border spinner-border-sm"
-            role="status"
-            aria-hidden="true"
-            *ngIf="isDownloadingCardProSheet"
-          ></span>
-        <i class="bi bi-cloud-arrow-down" *ngIf="!isDownloadingCardProSheet"></i>
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+          *ngIf="isDownloadingCardProSheet"
+        ></span>
+        <i
+          class="bi bi-cloud-arrow-down"
+          *ngIf="!isDownloadingCardProSheet"
+        ></i>
         <span class="ms-2">Download CardPro Sheet</span>
       </button>
       <p *ngIf="isCardProSheetDownloaded">

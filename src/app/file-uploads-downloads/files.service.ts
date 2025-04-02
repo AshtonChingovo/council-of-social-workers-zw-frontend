@@ -8,6 +8,7 @@ import { environment } from "../../environments/environment.development";
 export class FilesService {
 
     trackingSheetEventSubject = new Subject<APIResponse>;
+    imagesEventSubject = new Subject<APIResponse>;
     cardProSheetEventSubject = new Subject<APIResponse>;
     downloadCardProSheetEventSubject = new Subject<APIResponse>;
 
@@ -63,6 +64,33 @@ export class FilesService {
               eventSource.close();
             };
           });
+    }
+
+    extractImages() {
+      this.httpClient
+      .get(environment.baseUrl + '/attachments', { observe: 'response' })
+      .subscribe({
+        next: (httpResponse) => {
+          var apiResponse = new APIResponse();
+
+          if (httpResponse.status == HttpStatusCode.Created) {
+            apiResponse.isSuccessful = true;
+          } else {
+            apiResponse.isSuccessful = false;
+            apiResponse.errorMessage = 'Unknown error occured';
+          }
+
+          this.imagesEventSubject.next(apiResponse);
+        },
+        error: (e) => {
+          var apiResponse = new APIResponse();
+
+          apiResponse.isSuccessful = false;
+          apiResponse.errorMessage = 'Unknown error occured';
+
+          this.imagesEventSubject.next(apiResponse);
+        },
+      });
     }
 
     generateCardProSheet() {

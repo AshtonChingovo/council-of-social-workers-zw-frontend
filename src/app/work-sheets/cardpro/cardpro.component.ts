@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CardProSheetService } from './cardpro-sheet.service';
+import { CardProSheetService } from './cardpro.service';
 import { PaginationService } from '../../util/pagination.service';
 import { CardPro as CardProSheetClient } from './cardpro.model';
 import { APIResponse } from '../../util/api-response.model';

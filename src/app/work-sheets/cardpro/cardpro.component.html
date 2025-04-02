@@ -12,33 +12,69 @@
           />
         </div>
         <div>
-          <span class="client-name d-block">{{ client.name }} {{ client.surname }}</span>
-          <span class="card-label">Reg #: </span><span class="founder-name">{{ client.registrationNumber }}</span><br>
-          <span class="card-label">Prac #: </span><span class="founder-name">{{ client.practiceNumber }}</span>
+          <span class="client-name d-block"
+            >{{ client.name }} {{ client.surname }}</span
+          >
+          <span class="card-label">Reg #: </span
+          ><span class="founder-name">{{ client.registrationNumber }}</span
+          ><br />
+          <span class="card-label">Prac #: </span
+          ><span class="founder-name">{{ client.practiceNumber }}</span>
         </div>
-        <button type="button" class="btn btn-secondary btn-sm rounded-circle align-self-end mt-2" (click)="onClientMoreDetailsClient(client)" data-bs-toggle="modal"data-bs-target="#moreDetailsModal">
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm rounded-circle align-self-end mt-2"
+          (click)="onClientMoreDetailsClient(client)"
+          data-bs-toggle="modal"
+          data-bs-target="#moreDetailsModal"
+        >
           <i class="bi bi-chevron-right"></i>
         </button>
       </div>
     </div>
 
     <!-- Pagination -->
-    <nav aria-label="Page navigation" class="mt-5 me-5 p-4" *ngIf="!isFetchingData">
+    <nav
+      aria-label="Page navigation"
+      class="mt-5 me-5 p-4"
+      *ngIf="!isFetchingData"
+    >
       <ul class="pagination justify-content-end">
-        <li class="page-item first" [ngClass]="{disabled: !isStartEnabled}" (click)="onGetStartPage()">
+        <li
+          class="page-item first"
+          [ngClass]="{ disabled: !isStartEnabled }"
+          (click)="onGetStartPage()"
+        >
           <a class="page-link"><i class="bi bi-chevron-double-left"></i></a>
         </li>
-        <li class="page-item" [ngClass]="{disabled: !isPrevEnabled}" (click)="onGetPreviousPage()">
+        <li
+          class="page-item"
+          [ngClass]="{ disabled: !isPrevEnabled }"
+          (click)="onGetPreviousPage()"
+        >
           <a class="page-link"><i class="bi bi-chevron-left"></i></a>
         </li>
         <!-- API indexing starts at zero -->
-        <li class="page-item" [ngClass]="{active: page == currentPage }" *ngFor="let page of pages" (click)="onGetPage(page - 1)">
+        <li
+          class="page-item"
+          [ngClass]="{ active: page == currentPage }"
+          *ngFor="let page of pages"
+          (click)="onGetPage(page - 1)"
+        >
           <a class="page-link"> {{ page }} </a>
         </li>
-        <li class="page-item" [ngClass]="{disabled: !isNextEnabled}" (click)="onGetNextPage()">
+        <li
+          class="page-item"
+          [ngClass]="{ disabled: !isNextEnabled }"
+          (click)="onGetNextPage()"
+        >
           <a class="page-link"><i class="bi bi-chevron-right"></i></a>
         </li>
-        <li class="page-item last" [ngClass]="{disabled: !isEndEnabled}" (click)="onGetEndPage()">
+        <li
+          class="page-item last"
+          [ngClass]="{ disabled: !isEndEnabled }"
+          (click)="onGetEndPage()"
+        >
           <a class="page-link"><i class="bi bi-chevron-double-right"></i></a>
         </li>
       </ul>
@@ -47,28 +83,65 @@
 
   <!-- Empty Data Set -->
   <div class="no-data-container text-center mt-5" *ngIf="!isDataAvailable">
-    <img src="assets/images/empty.png" class="empty-data-image" alt="No Data Available" />
+    <img
+      src="assets/images/empty.png"
+      class="empty-data-image"
+      alt="No Data Available"
+    />
     <p class="text-muted">No data available yet</p>
   </div>
-  
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="moreDetailsModal" tabindex="-1" role="dialog" aria-labelledby="moreDetailsModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="moreDetailsModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="moreDetailsModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="moreDetailsModalLabel">Client Details</h5>
       </div>
       <div class="modal-body">
-        <h5><span class="client-name d-block mt-2">{{ activeCardProClient.name }} {{ activeCardProClient.surname }}</span></h5>
-        <div class="card-label mt-3">Reg #: <span class="client-details">{{ activeCardProClient.registrationNumber }}</span></div>
-        <div class="card-label mt-3">Prac #: <span class="client-details">{{ activeCardProClient.practiceNumber }}</span></div>
-        <div class="card-label mt-3">Valid Until: <span class="client-details">{{ activeCardProClient.dateOfExpiry }}</span></div>
-        <div class="card-label mt-3">Photo Name: <span class="client-details">{{ activeCardProClient.attachmentFileName }}</span></div>   
+        <h5>
+          <span class="client-name d-block mt-2"
+            >{{ activeCardProClient.name }}
+            {{ activeCardProClient.surname }}</span
+          >
+        </h5>
+        <div class="card-label mt-3">
+          Reg #:
+          <span class="client-details">{{
+            activeCardProClient.registrationNumber
+          }}</span>
+        </div>
+        <div class="card-label mt-3">
+          Prac #:
+          <span class="client-details">{{
+            activeCardProClient.practiceNumber
+          }}</span>
+        </div>
+        <div class="card-label mt-3">
+          Valid Until:
+          <span class="client-details">{{
+            activeCardProClient.dateOfExpiry
+          }}</span>
+        </div>
+        <div class="card-label mt-3">
+          Photo Name:
+          <span class="client-details">{{
+            activeCardProClient.attachmentFileName
+          }}</span>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
       </div>
     </div>
   </div>
