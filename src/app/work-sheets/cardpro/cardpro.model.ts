@@ -1,3 +1,4 @@
+import { Images } from "../images/images.model"
 
 export interface CardPro{
     name: string
@@ -5,6 +6,8 @@ export interface CardPro{
     registrationNumber: string
     practiceNumber: string
     dateOfExpiry: string
-    attachmentFileName: string
-    attachmentPath: string
+    email: string
+    hasDifferentEmail: boolean
+    hasNoAttachment: boolean
+    images: Images[]
 }

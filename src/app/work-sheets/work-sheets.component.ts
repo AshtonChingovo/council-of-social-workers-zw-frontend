@@ -55,7 +55,7 @@ export class WorkSheetsComponent implements OnInit {
       this.isImagesTabActive = false;
 
       if(this.isCardProTabActive){
-        this.cardProSheetService.getCardProSheet(
+        this.cardProSheetService.getCardProSheetClients(
           { pageNumber: 0, pageSize: 20, sortBy: "id" }
         );
       }

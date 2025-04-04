@@ -5,6 +5,7 @@ import { CardPro as CardProSheetClient } from './cardpro.model';
 import { APIResponse } from '../../util/api-response.model';
 import { PaginationAPIResponseModel } from '../../util/pagination-response.model';
 import { CommonModule } from '@angular/common';
+import { CardProStats } from './cardpro-stats.model';
 
 @Component({
   selector: 'app-cardpro',
@@ -17,6 +18,12 @@ export class CardproComponent {
   apiResponse: APIResponse;
 
   cardProSheetClients: CardProSheetClient[];
+  cardProSheetStats: CardProStats = {
+    totalClients: 0,
+    totalReady: 0,
+    totalHasDifferentEmail: 0,
+    totalNoAttachmentFound: 0
+  };
   paginationResponseModel: PaginationAPIResponseModel;
 
   // pagination parameters
@@ -30,17 +37,27 @@ export class CardproComponent {
   isEndEnabled: boolean;
 
   isDataAvailable: boolean = false;
+  isStatsAvailable: boolean = false;
   isFetchingData: boolean;
 
   activeCardProClient = {
-    name: "N/A",
-    surname: "N/A",
-    registrationNumber: "N/A",
-    practiceNumber: "N/A",
-    dateOfExpiry: "--/--/----",
-    attachmentFileName: "N/A",
-    attachmentPath: "N/A"
-  }
+    name: 'N/A',
+    surname: 'N/A',
+    registrationNumber: 'N/A',
+    practiceNumber: 'N/A',
+    dateOfExpiry: '--/--/----',
+    images: [
+      {
+        id: 0,
+        cardProClientId: '',
+        attachmentFileName: '',
+        attachmentPath: '',
+        croppedPath: '',
+        cropped: false,
+        deleted: false,
+      },
+    ],
+  };
 
   constructor(
     private cardProSheetService: CardProSheetService,
@@ -52,15 +69,18 @@ export class CardproComponent {
       this.isFetchingData = false;
 
       if (response.isSuccessful && response.data != null) {
-        // console.log(response.data)
 
         this.apiResponse = response;
         this.paginationResponseModel = this.apiResponse.data;
 
         this.cardProSheetClients = response.data.data;
 
-        if(this.cardProSheetClients.length > 0){
+        if (this.cardProSheetClients.length > 0) {
           this.isDataAvailable = true;
+
+          // get the stats 
+          this.cardProSheetService.getCardProSheetStats();
+        
         }
 
         // setup pagination
@@ -81,17 +101,28 @@ export class CardproComponent {
         this.isEndEnabled = paginationParams.isEndEnabled;
       }
     });
+
+    this.cardProSheetService.cardProStatsResponse.subscribe((response) => {
+
+      if (response.isSuccessful && response.data != null) {
+
+        this.isStatsAvailable = true;
+
+        this.cardProSheetStats = response.data;
+
+      }
+    });
   }
 
-  onClientMoreDetailsClient(client: CardProSheetClient){
-    this.activeCardProClient = client
+  onClientMoreDetailsClient(client: CardProSheetClient) {
+    this.activeCardProClient = client;
   }
 
   onGetPage(page: number) {
     this.isFetchingData = true;
 
     // get the first page of results
-    this.cardProSheetService.getCardProSheet({
+    this.cardProSheetService.getCardProSheetClients({
       pageNumber: page,
       pageSize: 10,
       sortBy: 'id',

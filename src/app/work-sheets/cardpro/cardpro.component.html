@@ -1,35 +1,66 @@
 <!-- CardPro Sheet Tab -->
 <div class="container">
+  <div>
+    <div class="stats-row" *ngIf="isStatsAvailable">
+      <!-- First Price Indicator -->
+      <div class="stats-container">
+        <div class="count">{{ cardProSheetStats.totalClients }}</div>
+        <div class="total-clients">Total Clients</div>
+      </div>
+      
+      <!-- Second Price Indicator -->
+      <div class="stats-container">
+        <div class="count">{{ cardProSheetStats.totalReady }}</div>
+        <div class="total-ready">Total Ready</div>
+      </div>
+      
+      <!-- Third Price Indicator -->
+      <div class="stats-container">
+        <div class="count">{{ cardProSheetStats.totalHasDifferentEmail }}</div>
+        <div class="total-email-not-available">Total Emails Not Found</div>
+      </div>
+  </div>
   <div class="row" *ngIf="isDataAvailable">
     <!-- [src]="client.attachmentPath" -->
     <div class="col-md-3 mb-4" *ngFor="let client of cardProSheetClients">
       <div class="profile-card d-flex flex-column justify-content-between">
         <div class="profile-image-container">
-          <img
-            src="assets/images/avatar.jpg"
-            class="profile-image"
-            alt="Leslie Alexander"
-          />
+          <div class="status-indicator">
+            <!-- <span class="status-badge status-active" *ngIf="!image.deleted">Ready</span> -->
+            <span class="status-badge status-email-not-available">Email N/A</span>
+            <!-- <span class="status-badge status-inactive" *ngIf="image.deleted">No Image</span> -->
+          </div>
+          <img src="assets/images/avatar.jpg" class="profile-image" alt="Profile" />
         </div>
-        <div>
-          <span class="client-name d-block"
-            >{{ client.name }} {{ client.surname }}</span
+        <span class="client-name d-block">{{ client.name }} {{ client.surname }}</span>
+        <div class="stats-container">
+          <div class="row text-center">
+            <div class="col-6">
+              <div class="stats-number">{{ client.registrationNumber }}</div>
+              <div class="card-label">Reg No.</div>
+            </div>
+            <div class="col-6 divider">
+              <div class="stats-number">{{ client.practiceNumber }}</div>
+              <div class="card-label">Practice No.</div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center mt-2 btn-container">
+          <!-- <button
+            type="button"
+            class="btn btn-dark btn-sm me-1"
+            data-bs-toggle="modal"
+            data-bs-target="#imageCropperModal"
           >
-          <span class="card-label">Reg #: </span
-          ><span class="founder-name">{{ client.registrationNumber }}</span
-          ><br />
-          <span class="card-label">Prac #: </span
-          ><span class="founder-name">{{ client.practiceNumber }}</span>
+            <span>Crop Image</span>
+            <i class="bi bi-crop"></i>
+          </button> -->
+          <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#moreDetailsModal"
+            (click)="onClientMoreDetailsClient(client)">
+            <span>More Details</span>
+            <i class="bi bi-chevron-right"></i>
+          </button>
         </div>
-        <button
-          type="button"
-          class="btn btn-secondary btn-sm rounded-circle align-self-end mt-2"
-          (click)="onClientMoreDetailsClient(client)"
-          data-bs-toggle="modal"
-          data-bs-target="#moreDetailsModal"
-        >
-          <i class="bi bi-chevron-right"></i>
-        </button>
       </div>
     </div>
 
@@ -97,7 +128,6 @@
   class="modal fade"
   id="moreDetailsModal"
   tabindex="-1"
-  role="dialog"
   aria-labelledby="moreDetailsModalLabel"
   aria-hidden="true"
 >
@@ -133,9 +163,7 @@
         </div>
         <div class="card-label mt-3">
           Photo Name:
-          <span class="client-details">{{
-            activeCardProClient.attachmentFileName
-          }}</span>
+          <span class="client-details" *ngIf="activeCardProClient.images.length > 0">{{ activeCardProClient.images[0].attachmentFileName }}</span>
         </div>
       </div>
       <div class="modal-footer">

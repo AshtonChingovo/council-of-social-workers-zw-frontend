@@ -102,7 +102,7 @@ export class FilesService {
         next: (httpResponse) => {
           var apiResponse = new APIResponse();
         
-          if(httpResponse.status == HttpStatusCode.Created){
+          if(httpResponse.status == HttpStatusCode.Ok){
             apiResponse.isSuccessful = true
           }
           else{
@@ -127,36 +127,35 @@ export class FilesService {
     }
 
     downloadCardProSheet() {
-      this.httpClient.get(
-        environment.baseUrl + "/cardpro/download",
-        { observe: "response" }
-       )
-      .subscribe({
-        next: (httpResponse) => {
-          var apiResponse = new APIResponse();
-        
-          if(httpResponse.status == HttpStatusCode.Ok){
-            apiResponse.isSuccessful = true
-          }
-          else{
-              apiResponse.isSuccessful = false
-              apiResponse.errorMessage = "Unknown error occured"
-          }
+      this.httpClient
+        .get(
+          environment.baseUrl +
+            '/cardpro/download',
+          { observe: 'response' }
+        )
+        .subscribe({
+          next: (httpResponse) => {
+            var apiResponse = new APIResponse();
+  
+            if (httpResponse.status == HttpStatusCode.Ok) {
+              apiResponse.isSuccessful = true;
+            } else {
+              apiResponse.isSuccessful = false;
+              apiResponse.errorMessage = 'Unknown error occured';
+            }
+  
+            this.downloadCardProSheetEventSubject.next(apiResponse);
 
-          this.downloadCardProSheetEventSubject.next(apiResponse);
-
-        },
-        error: (e) => {
-
-          var apiResponse = new APIResponse();
-        
-          apiResponse.isSuccessful = false
-          apiResponse.errorMessage = "Unknown error occured"
-
-          this.downloadCardProSheetEventSubject.next(apiResponse);
-
-        }
-      })
+          },
+          error: (e) => {
+            var apiResponse = new APIResponse();
+  
+            apiResponse.isSuccessful = false;
+            apiResponse.errorMessage = 'Unknown error occured';
+  
+            this.downloadCardProSheetEventSubject.next(apiResponse);
+          },
+        });
     }
 
 }
