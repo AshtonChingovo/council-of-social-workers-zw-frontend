@@ -11,6 +11,8 @@
 npm-debug.log
 yarn-error.log
 
+csw-angular.tar
+
 # IDEs and editors
 .idea/
 .project
