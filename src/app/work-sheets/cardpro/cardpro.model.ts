@@ -1,6 +1,7 @@
 import { Images } from "../images/images.model"
 
 export interface CardPro{
+    id: string
     name: string
     surname: string
     registrationNumber: string
