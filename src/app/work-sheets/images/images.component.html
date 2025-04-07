@@ -1,0 +1,179 @@
+<!-- CardPro Sheet Tab -->
+<div class="container">
+  <div class="row" *ngIf="isDataAvailable">
+    <!-- [src]="client.attachmentPath" -->
+    <div class="col-md-3 mb-4" *ngFor="let image of images">
+      <div class="profile-card d-flex flex-column justify-content-between">
+        <div class="profile-image-container">
+          <div class="top-status-indicator" *ngIf="hasMultipleImages(image.cardProClientId)">
+            <span class="status-badge status-multiple-pictures">Multi</span>
+          </div>
+          <div class="bottom-status-indicator" *ngIf="image.deleted">
+            <span class="status-badge status-deleted-picture">Deleted</span>
+          </div>
+          <img src="assets/images/avatar.jpg" class="profile-image" alt="Profile" />
+        </div>
+        <div class="controls-container mt-3">
+          <div class="image-title text-start"> {{ image.attachmentFileName }}</div>
+          <div class="d-flex justify-content-between buttons-container mt-2 ">
+            <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#imageModal" (click)="onImageSelected(image)">
+              <i class="bi bi-image"></i> View Image
+            </button>
+            <!-- <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#imageCropperModal">
+              <i class="bi bi-crop"></i> Crop
+            </button> -->
+            <button class="btn btn-outline-secondary btn-delete" data-bs-toggle="modal" data-bs-target="#imageDeleteModal" (click)="onImageSelected(image)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </div>       
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <nav
+      aria-label="Page navigation"
+      class="mt-5 me-5 p-4"
+      *ngIf="!isFetchingData"
+    >
+      <ul class="pagination justify-content-end">
+        <li
+          class="page-item first"
+          [ngClass]="{ disabled: !isStartEnabled }"
+          (click)="onGetStartPage()"
+        >
+          <a class="page-link"><i class="bi bi-chevron-double-left"></i></a>
+        </li>
+        <li
+          class="page-item"
+          [ngClass]="{ disabled: !isPrevEnabled }"
+          (click)="onGetPreviousPage()"
+        >
+          <a class="page-link"><i class="bi bi-chevron-left"></i></a>
+        </li>
+        <!-- API indexing starts at zero -->
+        <li
+          class="page-item"
+          [ngClass]="{ active: page == currentPage }"
+          *ngFor="let page of pages"
+          (click)="onGetPage(page - 1)"
+        >
+          <a class="page-link"> {{ page }} </a>
+        </li>
+        <li
+          class="page-item"
+          [ngClass]="{ disabled: !isNextEnabled }"
+          (click)="onGetNextPage()"
+        >
+          <a class="page-link"><i class="bi bi-chevron-right"></i></a>
+        </li>
+        <li
+          class="page-item last"
+          [ngClass]="{ disabled: !isEndEnabled }"
+          (click)="onGetEndPage()"
+        >
+          <a class="page-link"><i class="bi bi-chevron-double-right"></i></a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Empty Data Set -->
+  <div class="no-data-container text-center mt-5" *ngIf="!isDataAvailable">
+    <img
+      src="assets/images/empty.png"
+      class="empty-data-image"
+      alt="No Data Available"
+    />
+    <p class="text-muted">No data available yet</p>
+  </div>
+</div>
+
+<!-- Bootstrap Modal for Image View -->
+<div
+  class="modal fade"
+  id="imageModal"
+  tabindex="-1"
+  aria-labelledby="imageCropperModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageCropperModalLabel">{{ activeImageOnDialog.attachmentFileName }}</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <!-- Modal Body with Image Cropper -->
+      <div class="modal-body">
+        <img src="{{ imagePath }}"
+         class="modal-image-container"/>
+      </div>
+
+      <!-- Modal Footer with Action Buttons -->
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          (click)="onCrop()"
+        >
+          Done
+        </button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap Modal for Deleting Image -->
+<div
+  class="modal fade"
+  id="imageDeleteModal"
+  tabindex="-1"
+  aria-labelledby="imageCropperModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageCropperModalLabel">{{ activeImageOnDialog.attachmentFileName }}</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <!-- Modal Body with Image Cropper -->
+      <div class="modal-body">
+        <p>Confirm, delete image ?</p>
+      </div>
+
+      <!-- Modal Footer with Action Buttons -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          (click)="onDelete()"
+        >
+          Yes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
