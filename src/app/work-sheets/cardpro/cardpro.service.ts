@@ -62,6 +62,9 @@ export class CardProSheetService {
   }
 
   getCardProSheetStats() {
+
+    console.log('CardPro Stats called');
+  
     this.httpClient
     .get(
       environment.baseUrl +
@@ -74,11 +77,15 @@ export class CardProSheetService {
 
         if (httpResponse.status == HttpStatusCode.Ok) {
           apiResponse.isSuccessful = true;
+          apiResponse.data = {
+            data: httpResponse.body,
+          };
         } else {
           apiResponse.isSuccessful = false;
           apiResponse.errorMessage = 'Unknown error occured';
         }
 
+        console.log('CardPro Stats:', apiResponse.data);
         this.cardProStatsResponse.next(apiResponse);
 
       },

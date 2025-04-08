@@ -5,8 +5,16 @@ import { APIResponse } from '../../util/api-response.model';
 import { Images } from './images.model';
 import { ImagesService } from './images.service';
 import { PaginationService } from '../../util/pagination.service';
-import { CardPro as CardProSheetClient } from '../cardpro/cardpro.model';
-import { ImageCropperComponent, ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+import {
+  CardPro,
+  CardPro as CardProSheetClient,
+} from '../cardpro/cardpro.model';
+import {
+  ImageCropperComponent,
+  ImageCroppedEvent,
+  LoadedImage,
+} from 'ngx-image-cropper';
+import { CardProSheetService } from '../cardpro/cardpro.service';
 
 export type CropperDialogResult = {
   blob: Blob;
@@ -16,7 +24,7 @@ export type CropperDialogResult = {
 @Component({
   selector: 'app-images',
   standalone: true,
-  imports: [ CommonModule, ImageCropperComponent ],
+  imports: [CommonModule, ImageCropperComponent],
   templateUrl: './images.component.html',
   styleUrl: './images.component.css',
 })
@@ -30,12 +38,23 @@ export class ImagesComponent implements OnInit {
   // image active on the dialog
   activeImageOnDialog = {
     id: 0,
-    cardProClientId: "",
-    attachmentFileName: "",
-    attachmentPath: "",
-    croppedPath: "",
+    cardProClientId: '',
+    attachmentFileName: '',
+    attachmentPath: '',
+    croppedPath: '',
     cropped: false,
     deleted: false,
+  };
+
+  cardProStats = {
+    transactionId: "",
+    totalEmails: 0,
+    processedEmails: 0,
+    notInTrackingSheet: 0,
+    emailsNoAttachment: 0,
+    emptyEmails: 0,
+    emptyPayloadEmails: 0,
+    totalEmailsWithMultipleImages: 0,
 }
 
   // pagination parameters
@@ -51,9 +70,9 @@ export class ImagesComponent implements OnInit {
   isDataAvailable: boolean = false;
   isFetchingData: boolean;
 
-  imagePath = "http://localhost:4200/assets/images/avatar.jpg";
+  imagePath = 'http://localhost:4200/assets/images/avatar.jpg';
   result: CropperDialogResult | undefined;
-  
+
   constructor(
     private imagesService: ImagesService,
     private paginationService: PaginationService
@@ -64,23 +83,23 @@ export class ImagesComponent implements OnInit {
       this.isFetchingData = false;
 
       if (response.isSuccessful && response.data != null) {
-        // console.log(response.data)
 
         this.apiResponse = response;
         this.paginationResponseModel = this.apiResponse.data;
 
         this.cardProSheetClients = this.apiResponse.data.data;
-        this.images = this.cardProSheetClients
-        .sort((a, b) => {
-          const imageDiff = b.images.length - a.images.length;
-          if (imageDiff !== 0) {
-            return imageDiff; // sort by image count first
-          }
-          return a.name.localeCompare(b.name); // if same count, sort alphabetically
-        })
-        .flatMap(client => client.images);;
 
-        if(this.images.length > 0){
+        this.images = this.cardProSheetClients
+          .sort((a, b) => {
+            const imageDiff = b.images.length - a.images.length;
+            if (imageDiff !== 0) {
+              return imageDiff; // sort by image count first
+            }
+            return a.name.localeCompare(b.name); // if same count, sort alphabetically
+          })
+          .flatMap((client) => client.images);
+
+        if (this.images.length > 0) {
           this.isDataAvailable = true;
         }
 
@@ -105,45 +124,75 @@ export class ImagesComponent implements OnInit {
 
     this.imagesService.deletionResponse.subscribe((response) => {
       if (response.isSuccessful && response.data != null) {
+        var responseImage = response.data;
 
-        if(response.isSuccessful){
-
-          var responseImage = response.data;
-
-          this.images.find((image) => image.id == responseImage.id).deleted = true;
-        }
+          this.images.find((image) => image.id == responseImage.id).deleted =
+            response.data.deleted;
       }
-    })
+    });
+
+    this.imagesService.cardProStatsResponse.subscribe((response) => {
+      if (response.isSuccessful && response.data != null) {
+        this.cardProStats = response.data;
+        console.log('CardPro Stats:', this.cardProStats);
+      }
+    });
   }
 
   imageCropped(event: ImageCroppedEvent) {
-
     const { blob, objectUrl } = event;
-    
+
     if (blob && objectUrl) {
       this.result = { blob, imageUrl: objectUrl };
       console.log('Cropped image:', this.result.imageUrl);
     }
   }
 
-  onImageSelected(image: Images){
+  onImageSelected(image: Images) {
     this.activeImageOnDialog = image;
   }
 
   hasMultipleImages(clientId: string): boolean {
-    if(clientId == null || clientId == undefined) return false;
-    
-    return this.cardProSheetClients.find((client) => client.id == clientId).images.length > 1;
+    if (clientId == null || clientId == undefined) return false;
+
+    return (
+      this.cardProSheetClients.find((client) => client.id == clientId).images
+        .length > 1
+    );
+  }
+
+  showImageDeleteButton(image: Images){
+    if (image.cardProClientId == null || image.cardProClientId == undefined) return false;
+
+    if(image.deleted == true) return false;
+
+    return (
+      this.cardProSheetClients.find((client) => client.id == image.cardProClientId).images.length > 1
+    );
   }
 
   onDelete() {
-    this.imagesService.postImageDeletion({clientId: this.activeImageOnDialog.cardProClientId, id: this.activeImageOnDialog.id});
+    this.imagesService.postImageDeletion({
+      clientId: this.activeImageOnDialog.cardProClientId,
+      id: this.activeImageOnDialog.id,
+    });
+  }
+
+  onUndoDelete() {
+    this.imagesService.postUndoImageDeletion({
+      clientId: this.activeImageOnDialog.cardProClientId,
+      id: this.activeImageOnDialog.id,
+    });
   }
 
   onGetPage(page: number) {
     this.isFetchingData = true;
 
-    this.imagesService.getImages({ pageNumber: page, pageSize: 20, sortBy: 'id' });
+    this.imagesService.getImages({
+      pageNumber: page,
+      pageSize: 20,
+      sortBy: 'id',
+    });
   }
 
   onGetPreviousPage() {

@@ -1,5 +1,46 @@
 <!-- CardPro Sheet Tab -->
 <div class="container">
+  <div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+      <div class="stats-card">
+        <div class="d-flex flex-wrap justify-content-between">
+          <div class="d-flex align-items-center brand-display">
+            <span class="stats-title">Emails Processed</span>
+          </div>
+          <div class="d-flex align-items-center">
+            <span class="stats-data">28</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+      <div class="stats-card">
+        <div class="d-flex flex-wrap justify-content-between">
+          <div class="d-flex align-items-center brand-display">
+            <span class="stats-title">Not in Tracking Sheet</span>
+          </div>
+          <div class="d-flex align-items-center">
+            <span class="stats-data">28</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+      <div class="stats-card">
+        <div class="d-flex flex-wrap justify-content-between">
+          <div class="d-flex align-items-center brand-display">
+            <span class="stats-title">Multiple Images</span>
+          </div>
+          <div class="d-flex align-items-center">
+            <span class="stats-data">28</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
   <div class="row" *ngIf="isDataAvailable">
     <!-- [src]="client.attachmentPath" -->
     <div class="col-md-3 mb-4" *ngFor="let image of images">
@@ -17,12 +58,12 @@
           <div class="image-title text-start"> {{ image.attachmentFileName }}</div>
           <div class="d-flex justify-content-between buttons-container mt-2 ">
             <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#imageModal" (click)="onImageSelected(image)">
-              <i class="bi bi-image"></i> View Image
+              View Image
             </button>
-            <!-- <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#imageCropperModal">
-              <i class="bi bi-crop"></i> Crop
-            </button> -->
-            <button class="btn btn-outline-secondary btn-delete" data-bs-toggle="modal" data-bs-target="#imageDeleteModal" (click)="onImageSelected(image)">
+            <button type="button" class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#undoImageDeleteModal" *ngIf="image.deleted" (click)="onImageSelected(image)">
+              Undo Delete
+            </button>
+            <button class="btn btn-outline-secondary btn-delete" data-bs-toggle="modal" data-bs-target="#imageDeleteModal" *ngIf="showImageDeleteButton(image)" (click)="onImageSelected(image)">
               <i class="bi bi-trash"></i>
             </button>
           </div>
@@ -170,6 +211,50 @@
           class="btn btn-primary"
           data-bs-dismiss="modal"
           (click)="onDelete()"
+        >
+          Yes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap Modal for Undo-Deleting Image -->
+<div
+  class="modal fade"
+  id="undoImageDeleteModal"
+  tabindex="-1"
+  aria-labelledby="imageCropperModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageCropperModalLabel">{{ activeImageOnDialog.attachmentFileName }}</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <!-- Modal Body with Image Cropper -->
+      <div class="modal-body">
+        <p>Restore deleted image ?</p>
+      </div>
+
+      <!-- Modal Footer with Action Buttons -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          (click)="onUndoDelete()"
         >
           Yes
         </button>

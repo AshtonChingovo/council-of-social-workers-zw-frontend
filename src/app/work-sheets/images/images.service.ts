@@ -10,6 +10,7 @@ import { ImageDelete } from './image-delete.model';
 export class ImagesService {
 
   response = new Subject<APIResponse>();
+  cardProStatsResponse = new Subject<APIResponse>();
   deletionResponse = new Subject<APIResponse>();
 
   constructor(private httpClient: HttpClient) {}
@@ -44,13 +45,15 @@ export class ImagesService {
               };
             }
 
-            this.response.next(apiResponse);
           } else {
             apiResponse.isSuccessful = false;
             apiResponse.errorMessage = 'Unknown error occured';
           }
 
           this.response.next(apiResponse);
+
+          //get stats
+          this.getImagesStats();
         },
         error: (e) => {
           var apiResponse = new APIResponse();
@@ -61,6 +64,44 @@ export class ImagesService {
           this.response.next(apiResponse);
         },
       });
+  }
+
+  getImagesStats() {
+    console.log('CardPro Stats called');
+  
+    this.httpClient
+    .get(
+      environment.baseUrl +
+        '/cardpro/stats',
+      { observe: 'response' }
+    )
+    .subscribe({
+      next: (httpResponse) => {
+        var apiResponse = new APIResponse();
+
+        if (httpResponse.status == HttpStatusCode.Ok) {
+          apiResponse.isSuccessful = true;
+          apiResponse.data = {
+            data: httpResponse.body,
+          };
+        } else {
+          apiResponse.isSuccessful = false;
+          apiResponse.errorMessage = 'Unknown error occured';
+        }
+
+        console.log('CardPro Stats:', apiResponse.data);
+        this.cardProStatsResponse.next(apiResponse);
+
+      },
+      error: (e) => {
+        var apiResponse = new APIResponse();
+
+        apiResponse.isSuccessful = false;
+        apiResponse.errorMessage = 'Unknown error occured';
+
+        this.cardProStatsResponse.next(apiResponse);
+      },
+    });
   }
 
   postImageDeletion(imageDelete: ImageDelete) {

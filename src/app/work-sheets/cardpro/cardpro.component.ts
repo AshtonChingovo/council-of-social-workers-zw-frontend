@@ -19,10 +19,14 @@ export class CardproComponent {
 
   cardProSheetClients: CardProSheetClient[];
   cardProSheetStats: CardProStats = {
-    totalClients: 0,
-    totalReady: 0,
-    totalHasDifferentEmail: 0,
-    totalNoAttachmentFound: 0
+    transactionId: '',
+    totalEmails: 0,
+    processedEmails: 0,
+    notInTrackingSheet: 0,
+    emailsNoAttachment: 0,
+    emptyEmails: 0,
+    emptyPayloadEmails: 0,
+    totalEmailsWithMultipleImages: 0,
   };
   paginationResponseModel: PaginationAPIResponseModel;
 
@@ -69,7 +73,6 @@ export class CardproComponent {
       this.isFetchingData = false;
 
       if (response.isSuccessful && response.data != null) {
-
         this.apiResponse = response;
         this.paginationResponseModel = this.apiResponse.data;
 
@@ -78,9 +81,8 @@ export class CardproComponent {
         if (this.cardProSheetClients.length > 0) {
           this.isDataAvailable = true;
 
-          // get the stats 
+          // get the stats
           this.cardProSheetService.getCardProSheetStats();
-        
         }
 
         // setup pagination
@@ -103,13 +105,10 @@ export class CardproComponent {
     });
 
     this.cardProSheetService.cardProStatsResponse.subscribe((response) => {
-
       if (response.isSuccessful && response.data != null) {
-
         this.isStatsAvailable = true;
 
         this.cardProSheetStats = response.data;
-
       }
     });
   }

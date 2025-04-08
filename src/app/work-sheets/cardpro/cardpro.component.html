@@ -4,19 +4,19 @@
     <div class="stats-row" *ngIf="isStatsAvailable">
       <!-- First Price Indicator -->
       <div class="stats-container">
-        <div class="count">{{ cardProSheetStats.totalClients }}</div>
+        <div class="count">{{ cardProSheetStats.totalEmails }}</div>
         <div class="total-clients">Total Clients</div>
       </div>
       
       <!-- Second Price Indicator -->
       <div class="stats-container">
-        <div class="count">{{ cardProSheetStats.totalReady }}</div>
+        <div class="count">{{ cardProSheetStats.processedEmails }}</div>
         <div class="total-ready">Total Ready</div>
       </div>
       
       <!-- Third Price Indicator -->
       <div class="stats-container">
-        <div class="count">{{ cardProSheetStats.totalHasDifferentEmail }}</div>
+        <div class="count">{{ cardProSheetStats.notInTrackingSheet }}</div>
         <div class="total-email-not-available">Total Emails Not Found</div>
       </div>
   </div>

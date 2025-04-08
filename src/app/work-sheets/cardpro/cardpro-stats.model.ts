@@ -1,7 +1,11 @@
 
 export interface CardProStats{
-    totalClients: number,
-    totalReady: number,
-    totalHasDifferentEmail: number,
-    totalNoAttachmentFound: number
+    transactionId: string,
+    totalEmails: number,
+    processedEmails: number,
+    notInTrackingSheet: number,
+    emailsNoAttachment: number,
+    emptyEmails: number,
+    emptyPayloadEmails: number,
+    totalEmailsWithMultipleImages: number,
 }
