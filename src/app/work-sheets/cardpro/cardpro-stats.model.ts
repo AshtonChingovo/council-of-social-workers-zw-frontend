@@ -5,6 +5,7 @@ export interface CardProStats{
     processedEmails: number,
     notInTrackingSheet: number,
     emailsNoAttachment: number,
+    hasDifferentEmail: number,
     emptyEmails: number,
     emptyPayloadEmails: number,
     totalEmailsWithMultipleImages: number,

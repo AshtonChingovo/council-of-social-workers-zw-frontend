@@ -27,8 +27,7 @@
         <div class="profile-image-container">
           <div class="status-indicator">
             <!-- <span class="status-badge status-active" *ngIf="!image.deleted">Ready</span> -->
-            <span class="status-badge status-email-not-available">Email N/A</span>
-            <!-- <span class="status-badge status-inactive" *ngIf="image.deleted">No Image</span> -->
+            <span class="status-badge" [ngClass]="showTag(client)"> {{ showTagTitle(client) }}</span>
           </div>
           <img src="assets/images/avatar.jpg" class="profile-image" alt="Profile" />
         </div>
@@ -123,7 +122,7 @@
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal: More client details -->
 <div
   class="modal fade"
   id="moreDetailsModal"
@@ -159,6 +158,12 @@
           Valid Until:
           <span class="client-details">{{
             activeCardProClient.dateOfExpiry
+          }}</span>
+        </div>
+        <div class="card-label mt-3">
+          Email Address:
+          <span>{{
+            activeCardProClient.email
           }}</span>
         </div>
         <div class="card-label mt-3">

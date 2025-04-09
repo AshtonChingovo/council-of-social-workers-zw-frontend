@@ -37,6 +37,7 @@ body {
   transform: scale(1.05);
 }
 
+/*  Tags */
 .status-indicator {
   position: absolute;
   top: 10px;
@@ -54,14 +55,26 @@ body {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.status-active {
+.status-ready {
   background-color: #2ecc71;
   color: white;
 }
-.status-email-not-available {
+
+.status-different-email {
   background-color: #f39c12;
   color: white;
 }
+
+.status-multiple-pictures {
+  background-color: #303f9f;
+  color: white;
+}
+
+.status-not-in-tracking-sheet {
+  background-color: #FF1744;
+  color: white;
+}
+
 .client-name {
   font-weight: 500;
   color: #333;

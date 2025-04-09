@@ -8,6 +8,7 @@ export interface CardPro{
     practiceNumber: string
     dateOfExpiry: string
     email: string
+    notInTrackingSheet: boolean
     hasDifferentEmail: boolean
     hasNoAttachment: boolean
     images: Images[]

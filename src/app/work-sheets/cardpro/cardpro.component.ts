@@ -24,6 +24,7 @@ export class CardproComponent {
     processedEmails: 0,
     notInTrackingSheet: 0,
     emailsNoAttachment: 0,
+    hasDifferentEmail: 0,
     emptyEmails: 0,
     emptyPayloadEmails: 0,
     totalEmailsWithMultipleImages: 0,
@@ -50,6 +51,7 @@ export class CardproComponent {
     registrationNumber: 'N/A',
     practiceNumber: 'N/A',
     dateOfExpiry: '--/--/----',
+    email: 'N/A',
     images: [
       {
         id: 0,
@@ -111,6 +113,34 @@ export class CardproComponent {
         this.cardProSheetStats = response.data;
       }
     });
+  }
+
+  showTag(client: CardProSheetClient){
+
+    if(client.notInTrackingSheet)
+      return 'status-not-in-tracking-sheet';
+    
+    if(client.images.length > 1)
+      return 'status-multiple-pictures';
+
+    if(client.hasDifferentEmail)
+      return 'status-different-email';
+
+    return 'status-ready';
+  }
+
+  showTagTitle(client: CardProSheetClient){
+
+    if(client.notInTrackingSheet)
+      return "Not in T.S";
+    
+    if(client.images.length > 1)
+      return "Multi";
+
+    if(client.hasDifferentEmail)
+      return "Different Email";
+
+    return "Ready";
   }
 
   onClientMoreDetailsClient(client: CardProSheetClient) {

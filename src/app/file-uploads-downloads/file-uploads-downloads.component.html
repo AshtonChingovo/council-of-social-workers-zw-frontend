@@ -100,6 +100,7 @@
       <button
         type="button"
         class="btn btn-dark mt-2"
+        data-bs-toggle="modal" data-bs-target="#downloadFilesModal"
         (click)="onDownloadCardProSheet()"
         [disabled]="!isCardProSheetGenerated"
       >
@@ -118,6 +119,30 @@
       <p *ngIf="isCardProSheetDownloaded">
         <span class="badge rounded-pill bg-info mt-3">FILE DOWNLOADED</span>
       </p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Download files -->
+<div class="modal fade" id="downloadFilesModal" tabindex="-1" role="dialog" aria-labelledby="downloadFilesLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="downloadFilesLabel">Download Files</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+          <span>Please specify the batch number for these files</span>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Batch Number:</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div>
     </div>
   </div>
 </div>
