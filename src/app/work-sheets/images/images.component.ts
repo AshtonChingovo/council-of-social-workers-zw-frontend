@@ -133,7 +133,7 @@ export class ImagesComponent implements OnInit {
 
     this.imagesService.cardProStatsResponse.subscribe((response) => {
       if (response.isSuccessful && response.data != null) {
-        this.cardProStats = response.data;
+        this.cardProStats = response.data.data;
         console.log('CardPro Stats:', this.cardProStats);
       }
     });

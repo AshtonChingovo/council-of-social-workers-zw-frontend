@@ -63,8 +63,6 @@ export class CardProSheetService {
 
   getCardProSheetStats() {
 
-    console.log('CardPro Stats called');
-  
     this.httpClient
     .get(
       environment.baseUrl +

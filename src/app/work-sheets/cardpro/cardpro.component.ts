@@ -110,7 +110,7 @@ export class CardproComponent {
       if (response.isSuccessful && response.data != null) {
         this.isStatsAvailable = true;
 
-        this.cardProSheetStats = response.data;
+        this.cardProSheetStats = response.data.data;
       }
     });
   }
