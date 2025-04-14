@@ -137,8 +137,6 @@ export class FilesService {
             const contentDisposition = httpResponse.headers.get('Content-Disposition');
             let filename = 'download.zip'; // default
 
-            console.log('ContentDispo:', httpResponse.headers.get('Content-Disposition'));
-    
             // Extract filename from the header if available
             if (contentDisposition) {
               const match = contentDisposition.match(/filename="?([^"]+)"?/);
