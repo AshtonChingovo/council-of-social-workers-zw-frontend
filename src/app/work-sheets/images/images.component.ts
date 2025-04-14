@@ -47,15 +47,20 @@ export class ImagesComponent implements OnInit {
   };
 
   cardProStats = {
-    transactionId: "",
+    transactionId: '',
     totalEmails: 0,
     processedEmails: 0,
     notInTrackingSheet: 0,
+    notInTrackingSheetEmailList: [],
     emailsNoAttachment: 0,
+    hasDifferentEmail: 0,
+    hasDifferentEmailList: [],
     emptyEmails: 0,
     emptyPayloadEmails: 0,
+    emptyPayloadEmailsList: [],
     totalEmailsWithMultipleImages: 0,
-}
+    totalEmailWithMultipleImagesList: [],
+  };
 
   // pagination parameters
   pages = [];
@@ -83,7 +88,6 @@ export class ImagesComponent implements OnInit {
       this.isFetchingData = false;
 
       if (response.isSuccessful && response.data != null) {
-
         this.apiResponse = response;
         this.paginationResponseModel = this.apiResponse.data;
 
@@ -126,8 +130,8 @@ export class ImagesComponent implements OnInit {
       if (response.isSuccessful && response.data != null) {
         var responseImage = response.data;
 
-          this.images.find((image) => image.id == responseImage.id).deleted =
-            response.data.deleted;
+        this.images.find((image) => image.id == responseImage.id).deleted =
+          response.data.deleted;
       }
     });
 
@@ -161,13 +165,16 @@ export class ImagesComponent implements OnInit {
     );
   }
 
-  showImageDeleteButton(image: Images){
-    if (image.cardProClientId == null || image.cardProClientId == undefined) return false;
+  showImageDeleteButton(image: Images) {
+    if (image.cardProClientId == null || image.cardProClientId == undefined)
+      return false;
 
-    if(image.deleted == true) return false;
+    if (image.deleted == true) return false;
 
     return (
-      this.cardProSheetClients.find((client) => client.id == image.cardProClientId).images.length > 1
+      this.cardProSheetClients.find(
+        (client) => client.id == image.cardProClientId
+      ).images.length > 1
     );
   }
 

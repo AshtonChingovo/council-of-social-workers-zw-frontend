@@ -18,16 +18,21 @@ export class CardproComponent {
   apiResponse: APIResponse;
 
   cardProSheetClients: CardProSheetClient[];
+  
   cardProSheetStats: CardProStats = {
     transactionId: '',
     totalEmails: 0,
     processedEmails: 0,
     notInTrackingSheet: 0,
+    notInTrackingSheetEmailList: [],
     emailsNoAttachment: 0,
     hasDifferentEmail: 0,
+    hasDifferentEmailList: [],
     emptyEmails: 0,
     emptyPayloadEmails: 0,
+    emptyPayloadEmailsList: [],
     totalEmailsWithMultipleImages: 0,
+    totalEmailWithMultipleImagesList: [],
   };
   paginationResponseModel: PaginationAPIResponseModel;
 
